@@ -58,8 +58,43 @@ public class NewsUserController extends BaseController {
             Long uid = JwtHelper.getUserId(token);
             NewsUser newsUser = newsUserService.findByUid(uid);
             newsUser.setUserPwd("***");
-            result = Result.ok(newsUser);
+            HashMap<String, Object> data = new HashMap<>();
+            data.put("loginUser", newsUser);
+            result = Result.ok(data);
         }
         WebUtil.writeJson(resp, result);
+    }
+
+    /**
+     * 检查用户名
+     *
+     * @param req
+     * @param resp
+     */
+    protected void checkUserName(HttpServletRequest req, HttpServletResponse resp) {
+        String username = req.getParameter("username");
+        NewsUser newsUser = newsUserService.findUserByName(username);
+        if (null == newsUser) {
+            WebUtil.writeJson(resp, Result.ok(null));
+        } else {
+            WebUtil.writeJson(resp, Result.build(null, ResultCodeEnum.USERNAME_USED));
+        }
+    }
+
+    /**
+     * 注册
+     *
+     * @param req
+     * @param resp
+     */
+    protected void regist(HttpServletRequest req, HttpServletResponse resp) {
+        NewsUser newsUser = WebUtil.readJson(req, NewsUser.class);
+        NewsUser usedUser = newsUserService.findUserByName(newsUser.getUsername());
+        if (null == usedUser) {
+            newsUserService.regist(newsUser);
+            WebUtil.writeJson(resp, Result.ok(null));
+        } else {
+            WebUtil.writeJson(resp, Result.build(null, ResultCodeEnum.USERNAME_USED));
+        }
     }
 }

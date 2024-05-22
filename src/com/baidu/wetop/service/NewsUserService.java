@@ -18,4 +18,9 @@ public interface NewsUserService {
      * @return
      */
     NewsUser findByUid(Long uid);
+
+    /**
+     * @param newsUser
+     */
+    int regist(NewsUser newsUser);
 }

@@ -4,6 +4,7 @@ import com.baidu.wetop.dao.NewsUserDao;
 import com.baidu.wetop.dao.impl.NewsUserDaoImpl;
 import com.baidu.wetop.pojo.NewsUser;
 import com.baidu.wetop.service.NewsUserService;
+import com.baidu.wetop.utils.MD5Util;
 
 public class NewsUserServiceImpl implements NewsUserService {
     private final NewsUserDao newsUserDao = new NewsUserDaoImpl();
@@ -28,5 +29,16 @@ public class NewsUserServiceImpl implements NewsUserService {
     @Override
     public NewsUser findByUid(Long uid) {
         return newsUserDao.findByUid(uid);
+    }
+
+    /**
+     * 注册
+     *
+     * @param newsUser
+     */
+    @Override
+    public int regist(NewsUser newsUser) {
+        newsUser.setUserPwd(MD5Util.encrypt(newsUser.getUserPwd()));
+        return newsUserDao.insertNewsUser(newsUser);
     }
 }

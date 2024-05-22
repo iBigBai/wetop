@@ -18,4 +18,12 @@ public interface NewsUserDao {
      * @return
      */
     NewsUser findByUid(Long uid);
+
+    /**
+     * 插入用户
+     *
+     * @param newsUser
+     * @return
+     */
+    int insertNewsUser(NewsUser newsUser);
 }
