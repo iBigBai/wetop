@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BaseDao {
-    // 公共的查询方法  返回的是单个对象
+    // 公共的查询方法  返回的是单个值
     public <T> T baseQueryObject(Class<T> clazz, String sql, Object... args) {
         T t = null;
         Connection connection = JDBCUtil.getConnection();
