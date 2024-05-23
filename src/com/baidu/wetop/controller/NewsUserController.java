@@ -97,4 +97,18 @@ public class NewsUserController extends BaseController {
             WebUtil.writeJson(resp, Result.build(null, ResultCodeEnum.USERNAME_USED));
         }
     }
+
+    /**
+     * 检查登录
+     * @param req
+     * @param resp
+     */
+    protected void checkLogin(HttpServletRequest req, HttpServletResponse resp) {
+        String token = req.getHeader("token");
+        if (null != token && !JwtHelper.isExpiration(token)) {
+            WebUtil.writeJson(resp, Result.ok(null));
+        } else {
+            WebUtil.writeJson(resp, Result.build(null, ResultCodeEnum.NOTLOGIN));
+        }
+    }
 }

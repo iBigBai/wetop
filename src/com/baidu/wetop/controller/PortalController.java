@@ -2,6 +2,7 @@ package com.baidu.wetop.controller;
 
 import com.baidu.wetop.common.Result;
 import com.baidu.wetop.pojo.NewsType;
+import com.baidu.wetop.pojo.vo.HeadlineDetailVo;
 import com.baidu.wetop.pojo.vo.HeadlineQueryVo;
 import com.baidu.wetop.service.NewsHeadlineService;
 import com.baidu.wetop.service.NewsTypeService;
@@ -14,6 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet("/portal/*")
 public class PortalController extends BaseController {
@@ -44,6 +46,19 @@ public class PortalController extends BaseController {
         HashMap<String, Object> pageInfo = headlineService.findNewsPage(headlineQueryVo);
         HashMap<String, Object> data = new HashMap<>();
         data.put("pageInfo", pageInfo);
+        WebUtil.writeJson(resp, Result.ok(data));
+    }
+
+    /**
+     * 查询新闻详情
+     * @param req
+     * @param resp
+     */
+    protected void showHeadlineDetail(HttpServletRequest req, HttpServletResponse resp) {
+        Integer hid = Integer.parseInt(req.getParameter("hid"));
+        HeadlineDetailVo headlineDetailVo = headlineService.findHeadlineDetail(hid);
+        Map<String, HeadlineDetailVo> data = new HashMap<>();
+        data.put("headline", headlineDetailVo);
         WebUtil.writeJson(resp, Result.ok(data));
     }
 }
